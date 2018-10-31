@@ -1,4 +1,4 @@
-%%%-------------------------------------------------------------------
+%%-------------------------------------------------------------------
 %%% @doc
 %%% Task utility.
 %%%
@@ -264,13 +264,14 @@ do_apply(Info, {Module, Fun, Args} = MFA) ->
     apply(Module, Fun, Args)
   catch
     error:Value ->
-      Reason = {Value, erlang:get_stacktrace()},
+      Reason = {Value},
+      io:print("Reason: ~p", Value),
       exit(Info, MFA, Reason, Reason);
     throw:Value ->
-      Reason = {{nocatch, Value}, erlang:get_stacktrace()},
+      Reason = {{nocatch, Value}},
       exit(Info, MFA, Reason, Reason);
     exit:Value ->
-      exit(Info, MFA, {Value, erlang:get_stacktrace()}, Value)
+      exit(Info, MFA, {Value}, Value)
   end.
 
 %% @private
